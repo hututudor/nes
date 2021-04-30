@@ -1,0 +1,6 @@
+{
+  "files.associations": {
+    "assert.h": "c",
+    "memory.h": "c"
+  }
+}
