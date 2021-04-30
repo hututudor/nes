@@ -19,5 +19,5 @@ int main(int argc, char** argv) {
   bus_write8(&bus, 0xFFFF, 0xF8);
 
   bus_save_state(&bus);
-  // bus_destroy(&bus);
+  bus_destroy(&bus);
 }

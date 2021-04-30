@@ -20,5 +20,8 @@ valgrind: build
 		--log-file=valgrind-out.txt \
 		./$(OUTPUT) roms/test.nes
 
+dump: build
+	objdump $(OUTPUT) -S -j .text -Mintel
+
 clean:
 	rm $(OUTPUT)
