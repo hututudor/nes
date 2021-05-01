@@ -1,16 +1,18 @@
 CC=gcc
 OUTPUT=emulator
+ROM=roms/hello.nes
 SOURCES=src/*.c \
-				src/bus/*.c
+				src/bus/*.c \
+				src/parser/*.c
 
 run: build
-	./$(OUTPUT) roms/test.nes
+	./$(OUTPUT) $(ROM)
 
 build: 
 	$(CC) $(SOURCES) -o $(OUTPUT) -g -Wall
 
 gdb: build
-	gdb --args $(OUTPUT) roms/test.nes
+	gdb --args $(OUTPUT) $(ROM)
 
 valgrind: build
 	valgrind --leak-check=full \
@@ -18,7 +20,7 @@ valgrind: build
 		--track-origins=yes \
 		--verbose \
 		--log-file=valgrind-out.txt \
-		./$(OUTPUT) roms/test.nes
+		./$(OUTPUT) $(ROM)
 
 dump: build
 	objdump $(OUTPUT) -S -j .text -Mintel

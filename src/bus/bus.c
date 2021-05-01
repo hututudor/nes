@@ -58,6 +58,17 @@ void bus_write8(bus_t* bus, u16 address, u16 value) {
   memory_write8(real_memory.memory, real_memory.address, value);
 }
 
+u8* bus_get_pointer_with_size(bus_t* bus, u16 address, u16 size) {
+  real_memory_t real_memory = get_real_memory(bus, address);
+
+  if (real_memory.memory->end < real_memory.address + size - 1) {
+    return 0;
+  }
+
+  u16 offset = address - real_memory.memory->start;
+  return real_memory.memory->data + offset;
+}
+
 static void bus_save_all_state(bus_t* bus, char* filename) {
   FILE* file = fopen(filename, "wb");
   if (!file) ASSERT_NOT_REACHED;

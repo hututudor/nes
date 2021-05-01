@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "bus/bus.h"
+#include "parser/parser.h"
 
 int main(int argc, char** argv) {
   if (argc < 2) {
@@ -10,13 +11,9 @@ int main(int argc, char** argv) {
   }
 
   bus_t bus;
-
   bus_create(&bus);
 
-  bus_write8(&bus, 0x0001, 0x20);
-  bus_write8(&bus, 0x0804, 0x30);
-  bus_write8(&bus, 0x4200, 0x10);
-  bus_write8(&bus, 0xFFFF, 0xF8);
+  parse_and_load(&bus, argv[1]);
 
   bus_save_state(&bus);
   bus_destroy(&bus);
