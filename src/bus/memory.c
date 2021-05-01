@@ -44,15 +44,6 @@ void memory_save_state(memory_t* memory, char* filename) {
   FILE* file = fopen(filename, "wb");
   if (!file) ASSERT_NOT_REACHED;
 
-  if (memory->start) {
-    u8* padding = malloc(memory->start * sizeof(u8));
-    if (!padding) ASSERT_NOT_REACHED;
-
-    memset(padding, 0, memory->start);
-    fwrite(padding, sizeof(u8), memory->start, file);
-    free(padding);
-  }
-
   fwrite(memory->data, sizeof(u8), memory->size, file);
   fclose(file);
 }
