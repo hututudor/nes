@@ -52,10 +52,25 @@ u8 bus_read8(bus_t* bus, u16 address) {
   return memory_read8(real_memory.memory, real_memory.address);
 }
 
-void bus_write8(bus_t* bus, u16 address, u16 value) {
+void bus_write8(bus_t* bus, u16 address, u8 value) {
   real_memory_t real_memory = get_real_memory(bus, address);
 
   memory_write8(real_memory.memory, real_memory.address, value);
+}
+
+u16 bus_read16(bus_t* bus, u16 address) {
+  u8 low = bus_read8(bus, address);
+  u8 high = bus_read8(bus, address + 1);
+
+  return (high << 8) + low;
+}
+
+void bus_write16(bus_t* bus, u16 address, u16 value) {
+  u8 low = value & 0xFF;
+  u8 high = value >> 8;
+
+  bus_write8(bus, address, low);
+  bus_write8(bus, address + 1, high);
 }
 
 u8* bus_get_pointer_with_size(bus_t* bus, u16 address, u16 size) {

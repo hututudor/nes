@@ -3,7 +3,8 @@ OUTPUT=emulator
 ROM=roms/hello.nes
 SOURCES=src/*.c \
 				src/bus/*.c \
-				src/parser/*.c
+				src/parser/*.c \
+				src/cpu/*.c
 
 run: build
 	./$(OUTPUT) $(ROM)

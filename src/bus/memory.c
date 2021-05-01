@@ -20,6 +20,7 @@ void memory_create(memory_t* memory, u16 size, u16 start) {
 
 void memory_destroy(memory_t* memory) {
   if (memory->is_allocated) {
+    memory->is_allocated = FALSE;
     free(memory->data);
   }
 }
