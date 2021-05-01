@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
     cpu_print_debug(&cpu);
     cpu_execute(&cpu);
 
-    getchar();
+    // getchar();
   }
 
   bus_save_state(&bus);
