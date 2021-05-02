@@ -4,6 +4,7 @@
     "memory.h": "c",
     "stdio.h": "c",
     "string.h": "c",
-    "parser.h": "c"
+    "parser.h": "c",
+    "cpu.h": "c"
   }
 }

@@ -8,13 +8,17 @@ cpu_address_mode_t address_mode_i(cpu_t* cpu) {
 
 cpu_address_mode_t address_mode_imm(cpu_t* cpu) {
   cpu_address_mode_t ret = {0};
-  ASSERT_NOT_REACHED;
+
+  ret.value = cpu_fetch8(cpu);
+
   return ret;
 }
 
 cpu_address_mode_t address_mode_a(cpu_t* cpu) {
   cpu_address_mode_t ret = {0};
-  ASSERT_NOT_REACHED;
+
+  ret.address = cpu_fetch16(cpu);
+
   return ret;
 }
 

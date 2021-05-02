@@ -5,6 +5,8 @@
 #include "cpu/cpu.h"
 #include "parser/parser.h"
 
+#define DEBUG FALSE
+
 int main(int argc, char** argv) {
   if (argc < 2) {
     printf("USAGE: %s ROM\n", argv[0]);
@@ -23,7 +25,10 @@ int main(int argc, char** argv) {
     cpu_print_debug(&cpu);
     cpu_execute(&cpu);
 
-    // getchar();
+    if (DEBUG)
+      getchar();
+    else
+      printf("\n");
   }
 
   bus_save_state(&bus);
