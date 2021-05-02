@@ -18,6 +18,7 @@ cpu_address_mode_t address_mode_a(cpu_t* cpu) {
   cpu_address_mode_t ret = {0};
 
   ret.address = cpu_fetch16(cpu);
+  ret.value = bus_read8(cpu->bus, ret.address);
 
   return ret;
 }
@@ -30,7 +31,10 @@ cpu_address_mode_t address_mode_zp(cpu_t* cpu) {
 
 cpu_address_mode_t address_mode_r(cpu_t* cpu) {
   cpu_address_mode_t ret = {0};
-  ASSERT_NOT_REACHED;
+
+  i8 relative = cpu_fetch8(cpu);
+  ret.address = cpu->pc + relative;
+
   return ret;
 }
 

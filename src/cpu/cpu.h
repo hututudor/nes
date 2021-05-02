@@ -43,8 +43,11 @@ void cpu_print_debug(cpu_t* cpu);
 u8 cpu_fetch8(cpu_t* cpu);
 u16 cpu_fetch16(cpu_t* cpu);
 
-void handle_n(cpu_t* cpu, u8 value);
-void handle_z(cpu_t* cpu, u8 value);
+void cpu_push8(cpu_t* cpu, u8 value);
+void cpu_push16(cpu_t* cpu, u16 value);
+
+void cpu_handle_n(cpu_t* cpu, u8 value);
+void cpu_handle_z(cpu_t* cpu, u8 value);
 
 cpu_address_mode_t address_mode_i(cpu_t* cpu);
 cpu_address_mode_t address_mode_imm(cpu_t* cpu);
