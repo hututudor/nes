@@ -5,13 +5,15 @@
 #include "cpu/cpu.h"
 #include "parser/parser.h"
 
-#define DEBUG FALSE
+#define DEBUG TRUE
 
 int main(int argc, char** argv) {
   if (argc < 2) {
     printf("USAGE: %s ROM\n", argv[0]);
     return 0;
   }
+
+  int c = 0;
 
   bus_t bus;
   bus_create(&bus);
@@ -25,9 +27,16 @@ int main(int argc, char** argv) {
     cpu_print_debug(&cpu);
     cpu_execute(&cpu);
 
-    if (DEBUG)
-      getchar();
-    else
+    if (DEBUG) {
+      c = getchar();
+      if (c == 'n') {
+        // TODO: set a nmi
+      }
+
+      if (c == 'i') {
+        // set a break
+      }
+    } else
       printf("\n");
   }
 

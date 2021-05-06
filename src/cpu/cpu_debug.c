@@ -26,8 +26,8 @@ static void print_disassembled_instruction(cpu_t* cpu) {
 void cpu_print_debug(cpu_t* cpu) {
   printf("PC: 0x%04X  A: 0x%02X  X: 0x%02X  Y: 0x%02X  S: 0x%02X\n", cpu->pc,
          cpu->a, cpu->x, cpu->y, cpu->s);
-  printf("C: %d Z: %d I: %d D: %d B: %d V: %d N: %d\n", cpu->p.c, cpu->p.z,
-         cpu->p.i, cpu->p.d, cpu->p.b, cpu->p.v, cpu->p.n);
+  printf("C: %d | Z: %d | I: %d |  D: %d |  B: %d |  V: %d | N: %d\n", cpu->p.c,
+         cpu->p.z, cpu->p.i, cpu->p.d, cpu->p.b, cpu->p.v, cpu->p.n);
 
   u8 instruction = bus_read8(cpu->bus, cpu->pc);
 

@@ -24,8 +24,7 @@ void cpu_create(cpu_t* cpu, bus_t* bus) {
 
   memset(cpu, 0, sizeof(cpu_t));
 
-  // TODO: find a way to set this to 0x34
-  // cpu->p = 0x34;
+  cpu_set_sr(cpu, 0x01);
 
   cpu->bus = bus;
   cpu->pc = get_cpu_reset_vector(cpu);
@@ -60,3 +59,61 @@ void cpu_push16(cpu_t* cpu, u16 value) {
 
 void cpu_handle_n(cpu_t* cpu, u8 value) { cpu->p.n = (value & 0x80) >> 7; }
 void cpu_handle_z(cpu_t* cpu, u8 value) { cpu->p.z = (value == 0); }
+
+u8 cpu_get_sr(cpu_t* cpu) {
+  u8 ret = 0;
+
+  ret += cpu->p.n;
+  ret <<= 1;
+
+  ret += cpu->p.v;
+  ret <<= 1;
+
+  ret += 1;
+  ret <<= 1;
+
+  ret += cpu->p.b;
+  ret <<= 1;
+
+  ret += cpu->p.d;
+  ret <<= 1;
+
+  ret += cpu->p.i;
+  ret <<= 1;
+
+  ret += cpu->p.z;
+  ret <<= 1;
+
+  ret += cpu->p.c;
+  ret <<= 1;
+
+  return ret;
+}
+
+void cpu_set_sr(cpu_t* cpu, u8 sr) {
+  cpu->p.c = sr & 1;
+  sr >>= 1;
+
+  cpu->p.z = sr & 1;
+  sr >>= 1;
+
+  cpu->p.i = sr & 1;
+  sr >>= 1;
+
+  cpu->p.d = sr & 1;
+  sr >>= 1;
+
+  cpu->p.b = sr & 1;
+  sr >>= 2;
+
+  cpu->p.v = sr & 1;
+  sr >>= 1;
+
+  cpu->p.n = sr & 1;
+  sr >>= 1;
+}
+
+void cpu_call_interrupt(cpu_t* cpu, u16 address) {}
+
+void cpu_call_nmi(cpu_t* cpu);
+void cpu_call_irq(cpu_t* cpu);

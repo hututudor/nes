@@ -1,4 +1,5 @@
 CC=gcc
+LIBS=-lSDL2
 OUTPUT=emulator
 ROM=roms/hello.nes
 SOURCES=src/*.c \
@@ -10,7 +11,7 @@ run: build
 	./$(OUTPUT) $(ROM)
 
 build: 
-	$(CC) $(SOURCES) -o $(OUTPUT) -g -Wall
+	$(CC) $(SOURCES) -o $(OUTPUT) -g -Wall $(LIBS)
 
 gdb: build
 	gdb --args $(OUTPUT) $(ROM)
