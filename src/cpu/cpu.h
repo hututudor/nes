@@ -46,6 +46,9 @@ u16 cpu_fetch16(cpu_t* cpu);
 void cpu_push8(cpu_t* cpu, u8 value);
 void cpu_push16(cpu_t* cpu, u16 value);
 
+u8 cpu_pop8(cpu_t* cpu);
+u16 cpu_pop16(cpu_t* cpu);
+
 void cpu_handle_n(cpu_t* cpu, u8 value);
 void cpu_handle_z(cpu_t* cpu, u8 value);
 

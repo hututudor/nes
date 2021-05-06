@@ -57,6 +57,10 @@ void cpu_push16(cpu_t* cpu, u16 value) {
   cpu_push8(cpu, value & 0xFF);
 }
 
+u8 cpu_pop8(cpu_t* cpu) { return bus_read8(cpu->bus, 0x100 + ++cpu->s); }
+
+u16 cpu_pop16(cpu_t* cpu) { return cpu_pop8(cpu) + ((u16)cpu_pop8(cpu) << 8); }
+
 void cpu_handle_n(cpu_t* cpu, u8 value) { cpu->p.n = (value & 0x80) >> 7; }
 void cpu_handle_z(cpu_t* cpu, u8 value) { cpu->p.z = (value == 0); }
 
@@ -85,12 +89,15 @@ u8 cpu_get_sr(cpu_t* cpu) {
   ret <<= 1;
 
   ret += cpu->p.c;
-  ret <<= 1;
+
+  printf("SR: %d\n", ret);
 
   return ret;
 }
 
 void cpu_set_sr(cpu_t* cpu, u8 sr) {
+  printf("SR: %d\n", sr);
+
   cpu->p.c = sr & 1;
   sr >>= 1;
 
@@ -114,8 +121,8 @@ void cpu_set_sr(cpu_t* cpu, u8 sr) {
 }
 
 void cpu_call_interrupt(cpu_t* cpu, u16 address) {
-  cpu_push8(cpu, cpu_get_sr(cpu));
   cpu_push16(cpu, cpu->pc);
+  cpu_push8(cpu, cpu_get_sr(cpu));
 
   cpu->pc = address;
 }

@@ -175,7 +175,7 @@ void load_instructions() {
   INST(INSTRUCTION_JSR_A, "JSR", cpu_jsr, address_mode_a, 2);
 
   // #define INSTRUCTION_RTS 0x60
-  // #define INSTRUCTION_RTI 0x40
+  INST(INSTRUCTION_RTI, "RTI", cpu_rti, address_mode_i, 0);
 
   // #define INSTRUCTION_CLC 0x18
   // #define INSTRUCTION_SEC 0x38
@@ -331,7 +331,11 @@ void cpu_jsr(cpu_t* cpu, cpu_address_mode_t am) {
 }
 
 void cpu_rts(cpu_t* cpu, cpu_address_mode_t am) { ASSERT_NOT_REACHED; }
-void cpu_rti(cpu_t* cpu, cpu_address_mode_t am) { ASSERT_NOT_REACHED; }
+
+void cpu_rti(cpu_t* cpu, cpu_address_mode_t am) {
+  cpu_set_sr(cpu, cpu_pop8(cpu));
+  cpu->pc = cpu_pop16(cpu);
+}
 
 void cpu_clc(cpu_t* cpu, cpu_address_mode_t am) { ASSERT_NOT_REACHED; }
 void cpu_sec(cpu_t* cpu, cpu_address_mode_t am) { ASSERT_NOT_REACHED; }
