@@ -7,24 +7,24 @@
 #include "../assert.h"
 #include "instructions.h"
 
-// static u16 get_cpu_nmi_vector(cpu_t* cpu) {
-//   return bus_read16(cpu->bus, 0xFFFA);
-// }
+static u16 get_cpu_nmi_vector(cpu_t* cpu) {
+  return bus_read16(cpu->bus, 0xFFFA);
+}
 
 static u16 get_cpu_reset_vector(cpu_t* cpu) {
   return bus_read16(cpu->bus, 0xFFFC);
 }
 
-// static u16 get_cpu_irq_vector(cpu_t* cpu) {
-//   return bus_read16(cpu->bus, 0xFFFE);
-// }
+static u16 get_cpu_irq_vector(cpu_t* cpu) {
+  return bus_read16(cpu->bus, 0xFFFE);
+}
 
 void cpu_create(cpu_t* cpu, bus_t* bus) {
   load_instructions();
 
   memset(cpu, 0, sizeof(cpu_t));
 
-  cpu_set_sr(cpu, 0x01);
+  cpu_set_sr(cpu, 0x00);
 
   cpu->bus = bus;
   cpu->pc = get_cpu_reset_vector(cpu);
@@ -113,7 +113,19 @@ void cpu_set_sr(cpu_t* cpu, u8 sr) {
   sr >>= 1;
 }
 
-void cpu_call_interrupt(cpu_t* cpu, u16 address) {}
+void cpu_call_interrupt(cpu_t* cpu, u16 address) {
+  cpu_push8(cpu, cpu_get_sr(cpu));
+  cpu_push16(cpu, cpu->pc);
 
-void cpu_call_nmi(cpu_t* cpu);
-void cpu_call_irq(cpu_t* cpu);
+  cpu->pc = address;
+}
+
+void cpu_call_nmi(cpu_t* cpu) {
+  cpu_call_interrupt(cpu, get_cpu_nmi_vector(cpu));
+}
+
+void cpu_call_irq(cpu_t* cpu) {
+  if (cpu->p.i) {
+    cpu_call_interrupt(cpu, get_cpu_irq_vector(cpu));
+  }
+}

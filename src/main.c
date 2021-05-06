@@ -30,11 +30,11 @@ int main(int argc, char** argv) {
     if (DEBUG) {
       c = getchar();
       if (c == 'n') {
-        // TODO: set a nmi
+        cpu_call_nmi(&cpu);
       }
 
       if (c == 'i') {
-        // set a break
+        cpu_call_nmi(&cpu);
       }
     } else
       printf("\n");
